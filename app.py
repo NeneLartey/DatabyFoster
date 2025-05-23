@@ -1,15 +1,34 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 import os
+import ssl
 
 # Elastic Beanstalk expects 'application' variable name
 application = Flask(__name__)
 
-# Configure MongoDB with proper error handling
+# Configure MongoDB with proper error handling and SSL fix
 mongo_uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/survey_db')
 
 try:
-    client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
+    # Create SSL context that's more compatible with AWS
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    
+    # MongoDB connection with enhanced SSL configuration
+    client = MongoClient(
+        mongo_uri, 
+        serverSelectionTimeoutMS=10000,
+        connectTimeoutMS=10000,
+        socketTimeoutMS=10000,
+        ssl=True,
+        ssl_cert_reqs=ssl.CERT_NONE,
+        ssl_ca_certs=None,
+        ssl_match_hostname=False,
+        tlsAllowInvalidCertificates=True,
+        tlsAllowInvalidHostnames=True
+    )
+    
     # Test the connection
     client.admin.command('ping')
     print(f"✅ Successfully connected to MongoDB!")
