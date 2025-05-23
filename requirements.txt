@@ -1,0 +1,7 @@
+flask
+pymongo
+pandas
+matplotlib
+seaborn
+jupyter
+gunicorn 

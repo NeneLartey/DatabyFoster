@@ -1,0 +1,40 @@
+{
+  "family": "survey-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "survey-app",
+      "image": "YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/survey-app:latest",
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "FLASK_ENV",
+          "value": "production"
+        },
+        {
+          "name": "MONGO_URI",
+          "value": "mongodb://YOUR_MONGODB_CONNECTION_STRING"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/survey-task",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+} 

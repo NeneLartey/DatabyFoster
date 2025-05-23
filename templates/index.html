@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Spending Survey</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Income Spending Survey</h1>
+    <form method="POST">
+        <h2>User Details</h2>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+        </select><br><br>
+
+        <label for="total_income">Total Income (Monthly):</label>
+        <input type="number" id="total_income" name="total_income" step="0.01" required><br><br>
+
+        <h2>Expenses (Monthly)</h2>
+        <p>Please check the categories you spend on and enter the amount.</p>
+
+        <input type="checkbox" id="utilities" name="utilities" value="Utilities">
+        <label for="utilities">Utilities</label>
+        <input type="number" id="utilities_amount" name="utilities_amount" step="0.01" placeholder="Amount"><br><br>
+
+        <input type="checkbox" id="entertainment" name="entertainment" value="Entertainment">
+        <label for="entertainment">Entertainment</label>
+        <input type="number" id="entertainment_amount" name="entertainment_amount" step="0.01" placeholder="Amount"><br><br>
+
+        <input type="checkbox" id="school_fees" name="school_fees" value="School Fees">
+        <label for="school_fees">School Fees</label>
+        <input type="number" id="school_fees_amount" name="school_fees_amount" step="0.01" placeholder="Amount"><br><br>
+
+        <input type="checkbox" id="shopping" name="shopping" value="Shopping">
+        <label for="shopping">Shopping</label>
+        <input type="number" id="shopping_amount" name="shopping_amount" step="0.01" placeholder="Amount"><br><br>
+
+        <input type="checkbox" id="healthcare" name="healthcare" value="Healthcare">
+        <label for="healthcare">Healthcare</label>
+        <input type="number" id="healthcare_amount" name="healthcare_amount" step="0.01" placeholder="Amount"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> 
