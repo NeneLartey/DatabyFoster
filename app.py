@@ -6,35 +6,57 @@ import ssl
 # Elastic Beanstalk expects 'application' variable name
 application = Flask(__name__)
 
-# Configure MongoDB with proper error handling and SSL fix
+# Configure MongoDB with proper error handling and AWS-compatible SSL fix
+# Updated with corrected TLS parameters - deployment v2
 mongo_uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/survey_db')
 
 try:
-    # Create SSL context that's more compatible with AWS
-    ssl_context = ssl.create_default_context()
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    # Try multiple connection approaches for maximum AWS compatibility
+    connection_options = [
+        # Option 1: PyMongo-compatible SSL parameters (fixed conflicting options)
+        {
+            'serverSelectionTimeoutMS': 5000,
+            'connectTimeoutMS': 5000,
+            'socketTimeoutMS': 5000,
+            'tls': True,
+            'tlsAllowInvalidCertificates': True,
+            'tlsAllowInvalidHostnames': True
+        },
+        # Option 2: Standard connection without explicit SSL config
+        {
+            'serverSelectionTimeoutMS': 10000,
+            'connectTimeoutMS': 10000,
+            'socketTimeoutMS': 10000
+        },
+        # Option 3: Connection with minimal TLS
+        {
+            'serverSelectionTimeoutMS': 15000,
+            'tls': False if 'localhost' in mongo_uri else True,
+            'directConnection': False
+        }
+    ]
     
-    # MongoDB connection with enhanced SSL configuration
-    client = MongoClient(
-        mongo_uri, 
-        serverSelectionTimeoutMS=10000,
-        connectTimeoutMS=10000,
-        socketTimeoutMS=10000,
-        ssl=True,
-        ssl_cert_reqs=ssl.CERT_NONE,
-        ssl_ca_certs=None,
-        ssl_match_hostname=False,
-        tlsAllowInvalidCertificates=True,
-        tlsAllowInvalidHostnames=True
-    )
+    client = None
+    for i, options in enumerate(connection_options):
+        try:
+            print(f"🔄 Attempting MongoDB connection method {i+1} with options: {list(options.keys())}")
+            client = MongoClient(mongo_uri, **options)
+            # Test the connection
+            client.admin.command('ping')
+            print(f"✅ Successfully connected to MongoDB using method {i+1}!")
+            break
+        except Exception as e:
+            print(f"❌ Connection method {i+1} failed: {e}")
+            if client:
+                client.close()
+                client = None
+            continue
     
-    # Test the connection
-    client.admin.command('ping')
-    print(f"✅ Successfully connected to MongoDB!")
+    if client is None:
+        raise Exception("All connection methods failed")
     
     # Extract database name from URI or use default
-    db_name = 'foster_survey'  # Default database name
+    db_name = 'Foster'  # Default database name
     try:
         if '/' in mongo_uri and '?' in mongo_uri:
             # Extract database name from URI if present
