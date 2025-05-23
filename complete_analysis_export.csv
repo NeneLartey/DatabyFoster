@@ -1,0 +1,3 @@
+user_id,age,gender,total_income,submission_time,utilities_expense,entertainment_expense,school_fees_expense,shopping_expense,healthcare_expense,total_expenses,savings,utilities_percentage,entertainment_percentage,school_fees_percentage,shopping_percentage,healthcare_percentage,total_expenses_percentage
+68305f40fb88f21df8b3939c,50,Male,786786.0,2025-05-23 11:42:56+00:00,87.0,76.0,98.0,87.0,87.0,435.0,786351.0,0.011057644645430905,0.009659551644284468,0.012455737646577342,0.011057644645430905,0.011057644645430905,0.05528822322715453
+68305f6ea90dd4d0b7bddae7,33,Male,4444.0,2025-05-23 11:43:42+00:00,23.0,34.0,44.0,33.0,33.0,167.0,4277.0,0.5175517551755175,0.7650765076507651,0.9900990099009901,0.7425742574257426,0.7425742574257426,3.757875787578758
