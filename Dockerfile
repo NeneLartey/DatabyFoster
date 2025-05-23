@@ -13,12 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container at /app
 COPY . .
 
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
 # Define environment variable for Flask app
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Command to run the application with gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app:app"] 
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "--workers", "2", "app:app"] 

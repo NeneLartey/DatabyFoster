@@ -1,0 +1,22 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "foster-survey-app",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "80"
+    }
+  ],
+  "Environment": [
+    {
+      "Name": "MONGO_URI",
+      "Value": "mongodb+srv://foster:survey123@cluster0.mongodb.net/foster_survey?retryWrites=true&w=majority"
+    },
+    {
+      "Name": "FLASK_ENV",
+      "Value": "production"
+    }
+  ]
+} 
