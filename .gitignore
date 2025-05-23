@@ -1,5 +1,30 @@
+# Virtual environment
+.venv/
+venv/
+env/
 
-# Elastic Beanstalk Files
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Elastic Beanstalk
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+.elasticbeanstalk/logs/
+
+# Docker
+docker-compose.override.yml
